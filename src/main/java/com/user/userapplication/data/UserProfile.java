@@ -28,36 +28,24 @@ public class UserProfile implements Serializable {
     @Column(name = "profileId", nullable = false)
     @NotNull
     private UUID profileId;
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private UserCredentials userCredentials;
-
-    @NotBlank(message = "Full name is required")
-    @Size(min = 6, max = 50, message = "Full name must be between 2 and 100 characters")
+    @NotNull
     private String fullName;
-
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
+    @NotNull
+    @Column(insertable=false, updatable=false)
     private String email;
-
-    @Pattern(regexp = "(^$|[0-9]{10})", message = "Phone number must be 10 digits")
-    private String phoneNumber;
-
-    @NotNull(message = "Date of birth is required")
-    @Past(message = "Date of birth must be in the past")
+    @OneToOne
+    private Contact  contact;
+    @NotNull
     private Date dateOfBirth;
-
-    @NotNull(message = "Gender is required")
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String profession;
     private Integer experienceYears;
-    private String description;
-    private String companyName;
-    private String companyLicenseNo;
-    private String establishedDate;
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Embedded
+    private String summary;
+    @OneToOne
+    private CompanyProfile companyProfile;
+    @OneToOne
     private Address address;
     private List<String> workExperienceDetails;
 }

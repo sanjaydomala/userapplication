@@ -1,11 +1,8 @@
 package com.user.userapplication.controller;
 
-import com.user.userapplication.data.UserCredentials;
 import com.user.userapplication.data.UserProfile;
 import com.user.userapplication.service.UserService;
-import jakarta.ws.rs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,29 +16,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public UserCredentials createUser(@RequestBody @Valid UserCredentials user) {
-        return userService.createUser(user);
-    }
-
     @PostMapping("/add-profile")
     public UserProfile createUserProfile(@RequestBody @Valid UserProfile userProfile) {
         return userService.createUserProfile(userProfile);
     }
 
-    @GetMapping
-    public List<UserCredentials> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
-    @GetMapping("/userprofile")
+    @GetMapping("/userprofiles")
     public List<UserProfile> getAllUserProfiles(){
         return userService.getAllUserProfiles();
-    }
-
-    @GetMapping("user/{id}")
-    public UserCredentials getUserById(@PathVariable UUID id) {
-        return userService.getUserById(id);
     }
 
     @GetMapping("user-profile/{id}")
@@ -54,9 +36,9 @@ public class UserController {
         return userService.updateUserProfile(userProfile);
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable UUID id) {
-        userService.deleteUser(id);
-        return id+"deleted successfully";
+    @DeleteMapping("/{userId}")
+    public String deleteUser(@PathVariable UUID userId) {
+        userService.deleteUser(userId);
+        return userId+"deleted successfully";
     }
 }
