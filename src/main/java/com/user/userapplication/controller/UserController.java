@@ -1,12 +1,10 @@
 package com.user.userapplication.controller;
 
-import com.user.userapplication.data.UserCredentials;
 import com.user.userapplication.data.UserProfile;
 import com.user.userapplication.service.UserService;
-import jakarta.ws.rs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,29 +17,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public UserCredentials createUser(@RequestBody @Valid UserCredentials user) {
-        return userService.createUser(user);
-    }
+    @Autowired
+    RestTemplate template;
 
     @PostMapping("/add-profile")
     public UserProfile createUserProfile(@RequestBody @Valid UserProfile userProfile) {
         return userService.createUserProfile(userProfile);
     }
 
-    @GetMapping
-    public List<UserCredentials> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
-    @GetMapping("/userprofile")
+    @GetMapping("/userprofiles")
     public List<UserProfile> getAllUserProfiles(){
         return userService.getAllUserProfiles();
-    }
-
-    @GetMapping("user/{id}")
-    public UserCredentials getUserById(@PathVariable UUID id) {
-        return userService.getUserById(id);
     }
 
     @GetMapping("user-profile/{id}")
@@ -54,9 +40,21 @@ public class UserController {
         return userService.updateUserProfile(userProfile);
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable UUID id) {
-        userService.deleteUser(id);
-        return id+"deleted successfully";
+    @DeleteMapping("/{userId}")
+    public String deleteUser(@PathVariable UUID userId) {
+        userService.deleteUser(userId);
+        return userId+"deleted successfully";
+    }
+
+    @GetMapping("/filterprofiles")
+    public List<UserProfile> findByGenderAndProfession(@RequestParam List<String> gender, @RequestParam List<String> profession){
+        return userService.findByGenderAndProfession(gender,profession);
+    }
+
+    @GetMapping("/getdistance")
+    public Long getDistance(@RequestParam Long zipcode1,@RequestParam Long Zipcode2){
+
+        String url = "http://localhost:8082/payments/get-payments";
+        return  template.getForObject(url,Long.class);
     }
 }

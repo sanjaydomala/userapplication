@@ -3,25 +3,26 @@ package com.user.userapplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableCaching
 public class UserapplicationApplication {
 
 	@Bean
 	public CacheManager cacheManager() {
-		return new ConcurrentMapCacheManager("UserCredentials"); // Define specific cache names if needed
+		return new ConcurrentMapCacheManager();
+	}
+
+	@Bean
+	public RestTemplate getRestemplate(){
+		return new RestTemplate();
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(UserapplicationApplication.class, args);
 	}
-
 }

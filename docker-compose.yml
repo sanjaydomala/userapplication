@@ -1,0 +1,22 @@
+version: 'v1'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+
+  eureka-server:
+    image: netflixoss/eureka:latest
+    container_name: eureka_server
+    ports:
+      - "8761:8761"
+    environment:
+      EUREKA_SERVER_HOSTNAME: eureka_server
+
+  app:
+    build: .
+    container_name: userapplication
+    depends_on:
+      - mysql
+      - eureka-server
+
