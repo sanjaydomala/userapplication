@@ -33,7 +33,7 @@ public class UserProfile implements Serializable {
     @NotNull
     @Column(insertable=false, updatable=false)
     private String email;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Contact  contact;
     @NotNull
     private Date dateOfBirth;
@@ -43,9 +43,9 @@ public class UserProfile implements Serializable {
     private String profession;
     private Integer experienceYears;
     private String summary;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private CompanyProfile companyProfile;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     private List<String> workExperienceDetails;
 }

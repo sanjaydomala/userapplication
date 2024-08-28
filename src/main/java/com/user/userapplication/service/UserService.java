@@ -1,9 +1,8 @@
 package com.user.userapplication.service;
 
 import com.user.userapplication.data.UserProfile;
-import com.user.userapplication.exception.UserNameAlreadyExist;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
+@EnableJpaRepositories
 public class UserService {
 
     @Autowired
@@ -34,6 +34,9 @@ public class UserService {
         userProfileRepository.deleteById(userId);
     }
 
+    public List<UserProfile> findByGenderAndProfession(List<String> gender,List<String> profession){
+        return userProfileRepository.findByGenderInAndProfessionIn(gender,profession);
+    }
     public UserProfile createUserProfile(UserProfile userProfile) {
         return userProfileRepository.save(userProfile);
     }

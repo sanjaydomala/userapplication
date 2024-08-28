@@ -22,9 +22,9 @@ public class CompanyProfile {
     private UUID id;
 
     private String companyName;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Contact companyContact;
     private String email;
     private String website;
