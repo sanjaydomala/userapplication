@@ -1,20 +1,24 @@
 version: '3.8'
-services:
-  mongo:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - "27017:27017"
 
-  springboot:
-    image: myapp:latest
-    container_name: myapp
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mongo
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/your_database_name
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Sanju@551
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - my_network
+
+volumes:
+  mysql_data:
+
+networks:
+  my_network:
